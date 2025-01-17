@@ -7,7 +7,379 @@ import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx'
 import { useState } from 'react';
 
+const fieldColumns = {
+	A : {
+		columnName : "Payslip Number",
+		rows : []
+	},
+	B : {
+		columnName : "Floor Name",
+		rows : []
+	},
+	C : {
+		columnName : "Name"
+	},
+	DN : {
+		columnName : "Department",
+		rows : []
+	},
+	DM : {
+		columnName : "BASIC SALARY",
+		rows : []
+	},
+	W : {
+		columnName : "RestDay Work",
+		rows : []
+	},
+	X : {
+		columnName : "RestDay Work AMOUNT",
+		rows : []
+	},
+	AA : {
+		columnName : "Double Holiday",
+		rows : []
+	},
+	AB : {
+		columnName : "Double Holiday AMOUNT",
+		rows : []
+	},
+	AE : {
+		columnName : "RD+Double Holiday",
+		rows : []
+	},
+	AF : {
+		columnName : "RD+Double Holiday AMOUNT",
+		rows : []
+	},
+	AI : {
+		columnName : "Reg.Holiday (Work)",
+		rows : []
+	},
+	AJ : {
+		columnName : "Reg.Holiday (Work) Amount",
+		rows : []
+	},
+	AM : {
+		columnName : "RD+Reg.Holiday",
+		rows : []
+	},
+	AN : {
+		columnName : "RD+Reg.Holiday Amount",
+		rows : []
+	},
+	AQ : {
+		columnName : "Special Holiday",
+		rows : []
+	},
+	AR : {
+		columnName : "Special Holiday Amount",
+		rows : []
+	},
+	AU : {
+		columnName : "RD+Special Holiday",
+		rows : []
+	},
+	AV : {
+		columnName : "RD+Special Holiday Amount",
+		rows : []
+	},
+	U : {
+		columnName : "Regular (OT)",
+		rows : []
+	},
+	V : {
+		columnName : "Regular (OT) Amount",
+		rows : []
+	},
+	Y : {
+		columnName : "RD-OT"
+	},
+	Z : {
+		columnName : "RD-OT Amount",
+		rows : []
+	},
+	AC : {
+		columnName : "Double Holiday (OT)",
+		rows : []
+	},
+	AD : {
+		columnName : "Double Holiday (OT) Amount",
+		rows : []
+	},
+	AG : {
+		columnName : "Double Holiday RestDay (OT)",
+		rows : []
+	},	
+	AH : {
+		columnName : "Double Holiday RestDay (OT) Amount",
+		rows : []
+	},
+	AK : {
+		columnName : "Reg.Holiday (OT)",
+		rows : []
+	}, 	
+	AL : {
+		columnName : "Reg.Holiday (OT) Amount",
+		rows : []
+	},
+	AO :{
+		columnName :  "RD+Reg.Holiday (OT)",
+		rows : []
+	},	
+	AP : {
+		columnName : "RD+Reg.Holiday (OT) Amount",
+		rows : []
+	},
+	AS : {
+		columnName : "Special Holiday (OT)",
+		rows : []
+	},	
+	AT : {
+		columnName : "Special Holiday (OT) Amount",
+		rows : []
+	},
+	AW : {
+		columnName : "RD/Spec'l Holiday(OT)	",
+		rows : []
+	},	
+	AX : {
+		columnName : "RD/Spec'l Holiday(OT)	Amount",
+		rows : []
+	},
+	AY : {
+		columnName : "Night Diff",
+		rows : []
+	}, 	
+	AZ : {
+		columnName : "Night Diff Amount",
+		rows : []
+	},
+	BE : {
+		columnName : "ND Reg Holiday",
+		rows : []
+	}, 	
+	BF : {
+		columnName : "ND Reg Holiday Amount",
+		rows : []
+	},
+	BK : {
+		columnName : "ND Reg Holiday OT",
+		rows : []
+	},	
+	BL : {
+		columnName : "ND Reg Holiday OT Amount",
+		rows : []
+	},
+	BG : {
+		columnName : "ND Special Holiday",
+		rows : []
+	}, 	
+	BH : {
+		columnName : "ND Special Holiday Amount",
+		rows : []
+	},
+	BM : {
+		columnName : "ND Special Holiday OT	",
+		rows : []
+	}, 	
+	BN : {
+		columnName : "ND Special Holiday OT	Amount",
+		rows : []
+	},
+	noAssign : {
+		columnName : "ND Regular+Special Holiday",
+		rows : []
+	},
+	BO : {
+		columnName : "ND Rest Day",
+		rows : []
+	},	
+	BP : {
+		columnName : "ND Rest Day Amount",
+		rows : []
+	},
+	BW : {
+		columnName : "ND Rest Day (OT)",
+		rows : []
+	},	
+	BX : {
+		columnName : "ND Rest Day (OT) Amount",
+		rows : []
+	},
+	BS : {
+		columnName : "ND Regular+Rest Day",
+		rows : []
+	},	
+	BT : {
+		columnName : "ND Regular+Rest Day Amount",
+		rows : []
+	},
+	CA : {
+		columnName : "ND Regular+Rest Day (OT)",
+		rows : []
+	},	
+	CB : {
+		columnName : "ND Regular+Rest Day (OT) Amount",
+		rows : []
+	},
+	BA : {
+		columnName : "ND Overtime",
+		rows : []
+	},	
+	BB : {
+		columnName : "ND Overtime Amount",
+		rows : []
+	},
+	BU : {
+		columnName : "ND Special/Rest Day",
+		rows : []
+	},	
+	BV : {
+		columnName : "ND Special/Rest Day Amount",
+		rows : []
+	},
+	BC : {
+		columnName : "ND Double Holiday",
+		rows : []
+	},	
+	BD : {
+		columnName : "ND Double Holiday Amount",
+		rows : []
+	},
+	CI : {
+		columnName : "KPI/Qualifying Incentive/6-work day",
+		rows : []
+	},
+	CK : {
+		columnName : "Perfect Attendance",
+		rows : []
+	},
+	CJ : {
+		columnName : "Special Allowance	",
+		rows : []
+	},
+	CL : {
+		columnName : "Referral Fees",
+		rows : []
+	},
+	CM : {
+		columnName : "Training Fees	",
+		rows : []
+	},
+	CH : {
+		columnName : "Deminimis	",
+		rows : []
+	},
+	CN : {
+		columnName : "Food",
+		rows : []
+	},
+	CO : {
+		columnName : "Transpo.",
+		rows : []
+	},
+	CP : {
+		columnName : "Make-Up	",
+		rows : []
+	}, 
+	HE : {
+		columnName : "Salary Adjustment	",
+		rows : []
+	},
+	HC : {
+		columnName : "Salary Adjustment (NDOT 2022)",
+		rows : []
+	},
+	HD	 : {
+		columnName : "Salary Adjustment (NDOT 2023)",
+		rows : []
+	},
+	CG :{
+		columnName :  "Unused VL 2023",
+		rows : []
+	},
+	DI : {
+		columnName : "13th Month Pay",
+		rows : []
+	},
+	DK :{
+		columnName : "Tax Refund/Payables",
+		rows : []
+	},
+	CU : {
+		columnName : "SSS Contribution",
+		rows : []
+	},
+	CX : {
+		columnName : "SSS Loan",
+		rows : []
+	},
+	DB : {
+		columnName : "Pag-ibig Contribution",
+		rows : []
+	},
+	DE : {
+		columnName : "Pag-ibig Loan",
+		rows : []
+	},
+	CY : {
+		columnName : "Philhealth Contribution",
+		rows : []
+	},
+	DF : {
+		columnName : "Witholding Tax",
+		rows : []
+	},
+	I : {
+		columnName : "Absent",
+		rows : []
+	},	
+	J : {
+		columnName : "Absent Amount",
+		rows : []
+	},
+	N : {
+		columnName : "Tardiness",
+		rows : []
+	},	
+	O : {
+		columnName : "Tardiness Amount",
+		rows : []
+	},
+	CT : {
+		columnName : "Missed Class",
+		rows : []
+	}, 
+	CR :{
+		columnName :  "Cash Advance",
+		rows : []
+	},
+	CS : {
+		columnName : "CBS",
+		rows : []
+	}
+}
 
+const transformRawSheet = (rawSheet) => {
+
+	return Object.keys(rawSheet).reduce((acc, key) => {
+		const match = key.match(/([A-Z]+)|(\d+)/g);
+		let column, row;
+		if(match){
+     column =  match[0];
+		 row = match[1];
+
+		 if(row in acc){
+			acc[row] = {...acc[row], [column] : rawSheet[key]?.v }
+		 } else acc[row] = {[column] : rawSheet[key]?.v}
+		}
+
+		return acc
+
+	}, {})
+
+
+}
 
 function App() {
 
@@ -49,6 +421,7 @@ function App() {
 	const defaultCoverageValue = ranges[month + defaultIndexAdded]
 
   const [data, setData] = useState(null)
+	const [transformedData, setTransformedData] = useState(null)
   const [dataName, setDataName] = useState(null)
   const [coveragePeriod, setCoveragePeriod] = useState(defaultCoverageValue)
   const [payDate, setPayDate] = useState(null)
@@ -79,8 +452,9 @@ function App() {
 
     reader.onload = (event) => {
       const workbook = XLSX.read(event.target.result, { type: 'binary' });
-		
+			const transformed = transformRawSheet(workbook.Sheets["Sheet1"])
       const employees = XLSX.utils.sheet_to_json(workbook.Sheets["Sheet1"])
+			setTransformedData(transformed)
       setData(employees)
     };
 
@@ -88,17 +462,26 @@ function App() {
 		
   };
 
-
   const generateZipFile = async () => {
     const zip = new JSZip();
           
-    for (const key in data) {
-      const sheetData = getRelevantProperties(data[key])
-      const filename = data[key]?.Name?.toUpperCase()
-      const file = await pdf(<PDFFile coveragePeriod={coveragePeriod} payDate={payDate} sheetData={sheetData} rawSheet={data[key]}/>).toBlob()
-      zip.file(`${filename}-PAYSLIP.pdf`,file)
+    // for (const key in data) {
+    //   const sheetData = getRelevantProperties(data[key])
+    //   const filename = data[key]?.Name?.toUpperCase()
+    //   const file = await pdf(<PDFFile coveragePeriod={coveragePeriod} payDate={payDate} sheetData={sheetData} transformedData={transformedData}/>).toBlob()
+    //   zip.file(`${filename}-PAYSLIP.pdf`,file)
+    // }
 
-    }
+		for (const key in transformedData) {
+		
+			const sheetData = transformedData[key]
+			if(!sheetData.A) continue
+		
+			const filename = sheetData?.C?.toUpperCase();
+	
+      const file = await pdf(<PDFFile coveragePeriod={coveragePeriod} payDate={payDate} sheetData={sheetData} />).toBlob()
+      zip.file(`${filename}-PAYSLIP.pdf`,file)
+		}
 
     return zip.generateAsync({type : "blob"}).then(blob => {saveAs(blob, `${payDate}-PAYSLIPS.zip`)})
   }
